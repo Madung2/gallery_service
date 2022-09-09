@@ -1,0 +1,27 @@
+body{
+    background-color: #080615;
+    color: #766dff 
+}
+
+.signup_box{
+    border: 2px solid whitesmoke;
+    border-radius:10px;
+    width:400px;
+    height: 500px;
+    margin:100px auto;
+    
+}
+
+.submit{
+    width:300px;
+    height:40px;
+    background-color: #88f3ff;
+    color:#080615;
+    margin: 50px;
+    border-radius: 10px;
+    cursor:pointer
+}
+
+.submit:hover{
+    background-color: #766dff ;    
+}

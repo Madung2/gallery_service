@@ -1,0 +1,24 @@
+from rest_framework import serializers
+
+from .models import UserModel
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserModel
+        fields = "__all__"
+
+
+    extra_kwargs = {
+        'password': {'write_only': True}
+    }
+
+class LoginSerializer(serializers.Serializer):
+    email = serializers.EmailField(
+        max_length=100,
+        style={'placeholder': 'Email', 'autofocus': True}
+    )
+    password = serializers.CharField(
+        max_length=100,
+        style={'input_type': 'password', 'placeholder': 'Password'}
+    )
+    remember_me = serializers.BooleanField()
