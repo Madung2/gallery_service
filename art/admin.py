@@ -1,3 +1,5 @@
 from django.contrib import admin
+from .models import ArtModel, ExhibitionModel
 
-# Register your models here.
+admin.site.register(ArtModel)
+admin.site.register(ExhibitionModel)

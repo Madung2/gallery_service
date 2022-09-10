@@ -1,12 +1,15 @@
 from django.shortcuts import render, redirect
 
+from rest_framework import status
 from rest_framework.generics import (CreateAPIView)
 from rest_framework.renderers import TemplateHTMLRenderer, JSONRenderer
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework_simplejwt.views import TokenObtainPairView
 
 from .serializers import UserSerializer
+from .serializers_jwt import TokenObtainPairSerializer
 from .models import UserModel
+
 # Create your views here.
 
 
@@ -18,6 +21,9 @@ def valid_request(request):
 
 
 class UserCreateView(CreateAPIView):
+    """
+    회원가입 페이지 view
+    """
     renderer_classes = [JSONRenderer, TemplateHTMLRenderer]
     template_name = 'signup.html'
 
@@ -37,12 +43,29 @@ class UserCreateView(CreateAPIView):
             return Response({'error':'비밀번호 확인을 위해 동일한 비밀번호를 입력해주세요'}, status=status.HTTP_400_BAD_REQUEST)
         return Response({'error':'빈칸을 채워주세요'}, status=status.HTTP_400_BAD_REQUEST)
 
-
-class UserLoginView(CreateAPIView):
+class LoginPageView(CreateAPIView, TokenObtainPairView):
+    """_
+    로그인 페이지 view
+    """
     renderer_classes = [JSONRenderer, TemplateHTMLRenderer]
     template_name = 'signin.html'
+    serializer_class = TokenObtainPairSerializer
+    def get(self, request):
+        return Response(template_name= 'signin.html')        
+
+class TokenObtainPairView(TokenObtainPairView):
+    """
+    Login을 구현하는 View
+    내부에서 UserLog를 생성하는 함수 내장
+    """
+    serializer_class = TokenObtainPairSerializer
+ 
+
+class MainView(CreateAPIView):
+    renderer_classes = [JSONRenderer, TemplateHTMLRenderer]
+    template_name = 'main.html'
 
     def get(self, request):
-        return Response(template_name= 'signin.html')
-    def post(self, request):
-        
+        all_users = UserModel.objects.all().order_by('-date_joined')
+        serializer = UserSerializer(all_users, many=True).data
+        return Response({'user_list':serializer}, template_name= 'main.html')
