@@ -1,6 +1,6 @@
 from django.contrib.auth.hashers import make_password
 from rest_framework import serializers
-from .models import UserModel
+from .models import ArtistModel, UserModel, ArtistModel
 
 class UserSerializer(serializers.ModelSerializer):
 
@@ -17,3 +17,8 @@ class UserSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             'password': {'write_only': True}
         }
+
+class ArtistSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ArtistModel
+        fields='__all__'

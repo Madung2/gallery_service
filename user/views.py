@@ -59,13 +59,3 @@ class TokenObtainPairView(TokenObtainPairView):
     내부에서 UserLog를 생성하는 함수 내장
     """
     serializer_class = TokenObtainPairSerializer
- 
-
-class MainView(CreateAPIView):
-    renderer_classes = [JSONRenderer, TemplateHTMLRenderer]
-    template_name = 'main.html'
-
-    def get(self, request):
-        all_users = UserModel.objects.all().order_by('-date_joined')
-        serializer = UserSerializer(all_users, many=True).data
-        return Response({'user_list':serializer}, template_name= 'main.html')

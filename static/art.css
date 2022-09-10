@@ -1,0 +1,24 @@
+.head_indent{
+    width:1000px;
+    height:100px;
+}
+.card_wrapper{
+    float:left;
+    margin: 0 150px;
+    background-color: pink;
+    border-radius: 3px;
+    padding:0 auto;
+}
+.card_inner_wrapper{
+    
+    background-color: purple;
+    padding:0 auto;
+}
+.card{
+    width:300px;
+    height:200px;
+    border:1px solid white;
+    border-radius: 8px;
+    float:left;
+    margin:10px;
+}
