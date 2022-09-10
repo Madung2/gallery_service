@@ -1,38 +1,29 @@
+{% load static %}
 <!DOCTYPE html>
-{% load rest_framework %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> Signup | Gallery </title>
-    <link rel="stylesheet" href="../static/signup.css">
+
+    <link href="{% static 'signup.css' %}" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <style>
+        body{
+            background-color: #080615;
+            color: #766dff 
+        }
+
+    </style>
 
 </head>
 <body>
     <div class='signup_box'>
-        {% comment %} <form action="{% url 'login' %}" method='POST'>
-            {% csrf_token %}
-            {% render_form serializer %}
-            <input type='submit' value='Save'>
-        </form> {% endcomment %}
-
-        <form action="{% url 'login' %}" method="post" novalidate>
-            {% csrf_token %}
-            {% render_form serializer template_pack='rest_framework/vertical' %}
-            <button type="submit" class="btn btn-default">Sign in</button>
-        </form>
-
-
-
-
-
-
-
-        {% comment %} <form class="form-area" method="post" action="/signup/">
+        <form action="{% url 'signup' %}" method="post" novalidate>
             {% csrf_token %}
             <div class="signup_div">
+                <h2>회원가입</h2>
                 <div class='input_box'>
                     <label for="username">닉네임</label>
                     <input class="form-control" id="username" type="text"name="username" placeholder="닉네임을 입력하세요"/>
@@ -52,8 +43,8 @@
                 </div>
             {% endif %}
             <div >
-            <button class='submit'>submit</button>
+            <button type='submit' class='submit'>submit</button>
         </form>
-    </div> {% endcomment %}
+    </div>
 </body>
 </html>
