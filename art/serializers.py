@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import ArtModel
-from user.serializers import ArtistSerializer
+# from user.serializers import UserArtistSerializer
 
 class ArtSerializer(serializers.ModelSerializer):
     artist_name = serializers.SerializerMethodField()

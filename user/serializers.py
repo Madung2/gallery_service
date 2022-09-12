@@ -1,6 +1,8 @@
 from django.contrib.auth.hashers import make_password
 from rest_framework import serializers
 from .models import ArtistModel, UserModel, ArtistModel
+from art.models import ArtModel
+
 
 class UserSerializer(serializers.ModelSerializer):
 
@@ -22,9 +24,8 @@ class UserArtistSerializer(serializers.ModelSerializer):
     art_num = serializers.SerializerMethodField()
 
     def get_art_num(self, obj):
-        obj.
-        pass
+        return ArtModel.objects.filter(artist=obj.id).count()        
 
     class Meta:
         model = ArtistModel
-        fields=['user_id','name','gender','birthday','phone_number','email']
+        fields=['user_id','name','gender','birthday','phone_number','email', 'art_num']
