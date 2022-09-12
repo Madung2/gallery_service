@@ -1,6 +1,6 @@
 body {
     background-color: #080615;
-    color: #766dff;
+    color: pink;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -16,7 +16,8 @@ body::-webkit-scrollbar {
 }
 
 body::-webkit-scrollbar-thumb {
-    background-color: rgb(45, 45, 45);
+    background-color:pink;
+    /* background-color: rgb(45, 45, 45); */
 }
 
 body::-webkit-scrollbar-track {
@@ -42,17 +43,17 @@ body::-webkit-scrollbar-track {
 
 @keyframes flicker {
     0%, 18%, 22%, 25%, 53%, 57%, 100% {
-        text-shadow: 0 0 4px rgb(0, 0, 179),
+        text-shadow: 0 0 4px pink,
         0 0 11px #fff,
-        0 0 19px rgb(0, 0, 179),
+        0 0 19px #766dff,
         0 0 25px #fff,
-        0 0 40px rgb(0, 0, 179),
+        0 0 40px #766dff,
         0 0 67px #fff,
-        0 0 80px rgb(0, 0, 179),
+        0 0 80px #766dff,
         0 0 90px #fff,
-        0 0 100px rgb(0, 0, 179),
+        0 0 100px #766dff,
         0 0 128px #fff,
-        0 0 150px rgb(0, 0, 179);
+        0 0 150px #766dff;
     }
     20%, 24%, 55%, 78% {
         text-shadow: none;
@@ -125,7 +126,7 @@ body::-webkit-scrollbar-track {
     flex-direction: row;
     white-space: nowrap;
     justify-content: space-evenly;
-    color:#88f3ff ;
+    color:pink ;
 }
 
 .username, .bookmark, .liked, .logout, .random {
@@ -146,7 +147,7 @@ body::-webkit-scrollbar-track {
 .logout-txt {
     margin-left: 16px;
     margin-top: -3px;
-    color: #88f3ff;
+    color: pink;
     text-decoration: none;
 }
 
@@ -261,7 +262,7 @@ body::-webkit-scrollbar-track {
         cursor: pointer;
         transform: scale(0.8);
         transition: all 0.25s ease-in-out;
-        color: red;
+        color: #766dff;
     }
 
     .bookmark-txt, .random-txt, .like-txt, .logout-txt {
@@ -302,6 +303,6 @@ body::-webkit-scrollbar-track {
         cursor: pointer;
         transform: scale(0.7);
         transition: all 0.25s ease-in-out;
-        color: red;
+        color: #766dff;
     }
 }

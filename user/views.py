@@ -6,9 +6,9 @@ from rest_framework.renderers import TemplateHTMLRenderer, JSONRenderer
 from rest_framework.response import Response
 from rest_framework_simplejwt.views import TokenObtainPairView
 
-from .serializers import UserSerializer
+from .serializers import UserSerializer, UserArtistSerializer
 from .serializers_jwt import TokenObtainPairSerializer
-from .models import UserModel
+from .models import UserModel, ArtistModel
 
 # Create your views here.
 
@@ -59,3 +59,32 @@ class TokenObtainPairView(TokenObtainPairView):
     내부에서 UserLog를 생성하는 함수 내장
     """
     serializer_class = TokenObtainPairSerializer
+
+
+
+class ArtistListView(CreateAPIView):
+    renderer_classes = [JSONRenderer, TemplateHTMLRenderer]
+    template_name = 'main.html'
+
+    def get(self, request):
+        all_artists = ArtistModel.objects.all().order_by('-created_at')
+        serializer = UserArtistSerializer(all_artists, many=True).data
+        return Response({'artists':serializer}, template_name= 'u_artist.html')
+
+
+
+
+class ArtistApplyView(CreateAPIView):
+    renderer_classes = [JSONRenderer, TemplateHTMLRenderer]
+    template_name = 'u_apply.html'
+
+    def get(self, request):
+        return Response(template_name= 'u_apply.html')
+
+    def post(self,request):
+        serializer = UserArtistSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'result':"작가 신청이 정상적으로 이루어졌습니다."},template_name = 'u_art.html')
+
+

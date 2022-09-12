@@ -28,4 +28,7 @@ class ArtistModel(models.Model):
     email=models.CharField("이메일", max_length=120, null=True, blank=True)
     is_waiting=models.BooleanField("처리대기중", default=True)
     is_confirmed= models.BooleanField("승인처리완료", default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    # image = models.FileField(upload_to='uploads/artist/',null=True)
 

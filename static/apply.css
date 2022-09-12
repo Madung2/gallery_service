@@ -1,0 +1,9 @@
+.main_application{
+    width: 700px;
+    height: 800px;
+    /* background-color: aliceblue; */
+    border: 1px solid pink;
+    display:flex;
+    float:left;
+    margin:0 100px;
+}

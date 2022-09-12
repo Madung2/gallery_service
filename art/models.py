@@ -14,7 +14,7 @@ class ArtModel(models.Model):
     size = models.CharField("사이즈", max_length=200)
     number = models.IntegerField("호수", validators=[MinValueValidator(1), MaxValueValidator(500)])
     price = models.IntegerField("가격", default=0, validators=[MinValueValidator(0)])
-    image = models.FileField(upload_to='uploads/',null=True)
+    image = models.FileField(upload_to='uploads/art/',null=True)
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
 

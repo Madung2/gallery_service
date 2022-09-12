@@ -18,7 +18,13 @@ class UserSerializer(serializers.ModelSerializer):
             'password': {'write_only': True}
         }
 
-class ArtistSerializer(serializers.ModelSerializer):
+class UserArtistSerializer(serializers.ModelSerializer):
+    art_num = serializers.SerializerMethodField()
+
+    def get_art_num(self, obj):
+        obj.
+        pass
+
     class Meta:
         model = ArtistModel
-        fields='__all__'
+        fields=['user_id','name','gender','birthday','phone_number','email']

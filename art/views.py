@@ -8,9 +8,9 @@ from art.serializers import ArtSerializer
 
 class ArtListView(CreateAPIView):
     renderer_classes = [JSONRenderer, TemplateHTMLRenderer]
-    template_name = 'main.html'
+    template_name = 'u_art.html'
 
     def get(self, request):
         all_arts = ArtModel.objects.all().order_by('-created_at')
         serializer = ArtSerializer(all_arts, many=True).data
-        return Response({'art':serializer}, template_name= 'art.html')
+        return Response({'arts':serializer}, template_name= 'u_art.html')

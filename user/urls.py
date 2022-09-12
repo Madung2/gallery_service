@@ -5,6 +5,8 @@ urlpatterns = [
     path("signup/", views.UserCreateView.as_view(), name="signup"),
     path("login/", views.LoginPageView.as_view(), name="login"),
     path('token/', views.TokenObtainPairView.as_view(), name="gallery_token"),
+    path("artist/", views.ArtistListView.as_view(), name="artist"),
+    path("apply/", views.ArtistApplyView.as_view(), name="apply"),
 
 
 ]

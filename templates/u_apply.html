@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block css %}
+{% load static %}
+<link href="{% static 'base.css' %}" rel="stylesheet">
+<link href="{% static 'art.css' %}" rel="stylesheet">
+<link href="{% static 'apply.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class='head_indent'></div>
+<div class='wrapper'>
+    <div class='side_bar'>
+        <div class='button_box'>
+            <a href="/artist"><div style='font-size:3rem'><i class="fa fa-user-female"></i></div>
+            <div>작가 조회</div></a>
+        </div>
+        <a href="/art"><div class='button_box'>
+            <div style='font-size:3rem'><i class="fa fa-photo"></i></div>
+            <div>작품 조회</div></a>
+        </div>
+        <a href="/apply"><div class='button_box'>
+            <div style='font-size:3rem'><i class="fa fa-edit"></i></div>
+            <div>작가 등록</div></a>
+        </div>
+
+
+    </div>
+    <div class='try'></div>
+    <div class='main_application'>
+
+        <div></div>
+
+    </div>
+
+</div>
+
+
+{% endblock %}
