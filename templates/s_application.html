@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block css %}
+{% load static %}
+<link href="{% static 'base.css' %}" rel="stylesheet">
+<link href="{% static 'art.css' %}" rel="stylesheet">
+<link href="{% static 'application.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class='head_indent'></div>
+<div class='wrapper'>
+    <div class='side_bar'>
+        <div class='button_box'>
+            <a href="/staff/dasboard"><div style='font-size:3rem'><i class="fa fa-user-female"></i></div>
+            <div>대시보드</div></a>
+        </div>
+        <a href="/staff/static"><div class='button_box'>
+            <div style='font-size:3rem'><i class="fa fa-photo"></i></div>
+            <div>작가 통계</div></a>
+        </div>
+        <a href="/staff/application"><div class='button_box'>
+            <div style='font-size:3rem'><i class="fa fa-edit"></i></div>
+            <div>작가 등록 신청내역</div></a>
+        </div>
+
+
+    </div>
+    <div class='try'></div>
+    <div style='margin:30px'>
+        <h3>작가 등록 신청 내역</h3>
+        <table class="tg">
+            <thead>
+                <tr>
+                    <th class="tg-0pky"><input type='checkbox' name='is_not_waiting?' value='selectall' onclick='selectAll(this)'/>Select All</th>
+                    <th class="tg-0pky">name</th>
+                    <th class="tg-0pky">birthday</th>
+                    <th class="tg-0pky">e-mail</th>
+                    <th class="tg-0pky">phone</th>
+                    <th class="tg-0lax">requested date</th>
+                    <th class="tg-0lax">is_confirmed</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for artist in artists %}
+                <tr>
+                    <td class="tg-phtq"><input type='checkbox' name='is_not_waiting?' value='{{ artist.id }}'/></td>
+                    <td class="tg-phtq">{{ artist.name }}</td>
+                    <td class="tg-phtq">{{ artist.birthday }}</td>
+                    <td class="tg-phtq">{{ artist.email }}</td>
+                    <td class="tg-phtq">{{ artist.phone_number }}</td>
+                    <td class="tg-hmp3">{{ artist.date }}</td>
+                    <td class="tg-hmp3">{{ artist.is_waiting }}</td>
+                </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function selectAll(selectAll)  {
+            const checkboxes = document.getElementsByName('is_not_waiting?');
+            
+            checkboxes.forEach((checkbox) => {
+                checkbox.checked = selectAll.checked;
+            })
+        }
+    </script>
+
+
+    
+
+{% endblock %}

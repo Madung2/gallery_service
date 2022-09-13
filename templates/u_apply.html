@@ -28,9 +28,57 @@
     </div>
     <div class='try'></div>
     <div class='main_application'>
+        <h1> 작가 공모 지원 </h1>
+        <hr width='400px'>
 
-        <div></div>
-
+        <h3>작가 프로필</h3>
+        <br><br>
+        <form action="{% url 'apply' %}" method="post" enctype="multipart/form-data" novalidate>
+            {% csrf_token %}
+            <div class="inputs  mb-3" style='margin:0 auto'>
+                <label for="name" class="col-sm-2 col-form-label input-title-label">성함:&nbsp;&nbsp;</label>
+                <input name="name" type="text" class="input_box"
+                    placeholder="성함을 입력해주세요(16자 이하)" value= {{ arts.name }}>
+            </div>
+            <br><br>
+            <div class="inputs  mb-3" style='margin:0 auto'>
+                <div>성별:&nbsp;&nbsp; </div>
+                <label for="man">남성</label>
+                <input type="radio" id="man" name="gender" value="0">&nbsp;
+                <label for="woman">여성</label>
+                <input type="radio" id="woman" name="gender" value="1">
+            </div>
+            <br><br>
+            <div class="inputs  mb-3">
+                <label for="birthday">생년월일:&nbsp;&nbsp;</label>
+                <input type="date" id="birthday" name="birthday">
+            </div>
+            <br><br>
+            <div class="inputs  mb-3">
+                <label for="email">이메일:&nbsp;&nbsp;</label>
+                <input type="text" id="email1" name="email1">&nbsp;@&nbsp;
+                <input type="text" id="email2" name="email2">
+            </div>
+            <br><br>
+            <div class="inputs  mb-3">
+                <label for="phone">연락처:&nbsp;&nbsp;</label>
+                <input type="text" id="phone1" name="phone1" maxlength='3'>&nbsp;-&nbsp;
+                <input type="text" id="phone2" name="phone2" maxlength='4'>&nbsp;-&nbsp;
+                <input type="text" id="phone3" name="phone3" maxlength='4'>
+            </div>
+            <div style='width=100%;height:80px'></div>
+            <div><button type='submit' class='submit'>제출</button></div>
+            <div style='width=100%;height:50px'></div>
+            {% if error %}
+            <div class="alert alert-danger" role="alert">
+                {{ error }}
+            </div>
+        {% endif %}
+        </form>
+        <hr width='400px'>
+        <h3>결과 안내는 내부에서 검토 후 개별적으로 연락드리고 있습니다.<br>
+            검토 후 결과 안내까지는 최대 1-2주 정도 소요됩니다.
+        </h3>
     </div>
 
 </div>

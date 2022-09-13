@@ -1,9 +1,75 @@
+.wrapper{
+    width:100vw;
+}
+
 .main_application{
     width: 700px;
     height: 800px;
-    /* background-color: aliceblue; */
     border: 1px solid pink;
     display:flex;
     float:left;
-    margin:0 100px;
+    margin:0 auto;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+form{
+    margin:0 auto;
+}
+
+.inputs{
+    width:100%;
+    display:flex;
+    margin: 0 auto;
+}
+
+.inputs  mb-3{
+    margin: 0 auto
+}
+
+.input_box{
+    height:25px;
+    width:200px
+}
+
+#birthday{
+    width:200px;
+    height:25px
+}
+#email1{
+    width:100px;
+    height:25px
+}
+#phone1{
+    width:80px;
+    height:25px
+}
+#phone2{
+    width:80px;
+    height:25px
+}
+#phone3{
+    width:80px;
+    height:25px
+}
+
+.submit{
+    width:200px;
+    height:38px;
+    background-image: -moz-linear-gradient(0deg, #766dff 0%, #88f3ff 100%);
+    background-image: -webkit-linear-gradient(0deg, #766dff 0%, #88f3ff 100%);
+    background-image: -ms-linear-gradient(0deg, #766dff 0%, #88f3ff 100%);
+    font-family: 'Poor Story', cursive;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color:whitesmoke;
+    cursor: pointer;
+}
+.submit:hover{
+    background-image: -moz-linear-gradient(0deg, #88f3ff 0%, pink 100%);
+    background-image: -webkit-linear-gradient(0deg, #88f3ff 0%, pink 100%);
+    background-image: -ms-linear-gradient(0deg, #88f3ff 0%, pink 100%);
+    color: black;
+
 }

@@ -1,11 +1,12 @@
 body{
     font-family: 'Poor Story', cursive;
 }
+
 a:link{
-    color: #766dff
+    color: #88f3ff
 }
 a:visited{
-    color: #766dff
+    color: #88f3ff
 }
 a:hover{
     color:pink
@@ -24,6 +25,8 @@ a:active{
     float:left;
     flex-wrap:wrap;
     display:flex;
+    width: 100vw;
+    /* background-color: aliceblue; */
 }
 
 
@@ -96,6 +99,8 @@ a:active{
     top:5%;
     left:3%;
     font-size:1.1rem;
+    display: flex;
+    justify-content: space-between;
 }
 /* .card_second_row{
     position:fixed;
@@ -113,3 +118,4 @@ a:active{
     color:black;
 
 }
+
