@@ -9,6 +9,7 @@ urlpatterns =[
     path("artist/dashboard/", views.ArtistDashboardView.as_view(), name="artist_dashboard"),
     path("artist/art/", views.ArtistArtView.as_view(), name="artist_art"),
     path("artist/exhibition/", views.ArtistExhibitionView.as_view(), name="artist_exhibition"),
+    # path("artist/exhibition/", views.ArtistExhibitionView.as_view(), name="search"),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

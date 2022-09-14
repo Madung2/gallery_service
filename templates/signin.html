@@ -20,7 +20,7 @@
 </head>
 <body>
     <div class='signup_box'>
-        <form action="{% url 'gallery_token' %}" method="post" novalidate>
+        <form action="{% url 'login' %}" method="post" novalidate>
             {% csrf_token %}
             <div class="signup_div">
                 <h2>로그인</h2>

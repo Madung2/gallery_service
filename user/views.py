@@ -1,13 +1,16 @@
-from django.shortcuts import render, redirect
-
+from django.shortcuts import  redirect
+# from django.contrib import auth
+from django.contrib.auth import authenticate, login
 from rest_framework import status
-from rest_framework.generics import CreateAPIView
+
+from rest_framework.views import APIView
+# from rest_framework.generics import CreateAPIView, APIView
 from rest_framework.renderers import TemplateHTMLRenderer, JSONRenderer
 from rest_framework.response import Response
-from rest_framework_simplejwt.views import TokenObtainPairView
+# from rest_framework_simplejwt.views import TokenObtainPairView
 
 from .serializers import UserSerializer, UserArtistSerializer, StaffArtistSerializer, ArtistStaticSerializer
-from .serializers_jwt import TokenObtainPairSerializer
+# from .serializers_jwt import TokenObtainPairSerializer
 from .models import UserModel, ArtistModel
 from art.models import ArtModel
 from art.serializers import ArtSerializer
@@ -28,7 +31,7 @@ def make_artist_apply_data(request):
     data['phone_number']=data['phone1']+'-'+data['phone2']+'-'+data['phone3']
     return data
 
-class UserCreateView(CreateAPIView):
+class UserCreateView(APIView):
     """
     회원가입 페이지 view
     """
@@ -51,26 +54,26 @@ class UserCreateView(CreateAPIView):
             return Response({'error':'비밀번호 확인을 위해 동일한 비밀번호를 입력해주세요'}, status=status.HTTP_400_BAD_REQUEST)
         return Response({'error':'빈칸을 채워주세요'}, status=status.HTTP_400_BAD_REQUEST)
 
-class LoginPageView(CreateAPIView, TokenObtainPairView):
+class LoginPageView(APIView):
     """_
     로그인 페이지 view
     """
     renderer_classes = [JSONRenderer, TemplateHTMLRenderer]
     template_name = 'signin.html'
-    serializer_class = TokenObtainPairSerializer
     def get(self, request):
-        return Response(template_name= 'signin.html')        
+        return Response(template_name= 'signin.html')
+    def post(self, request):
+        data = request.data.copy()
+        username = data['username']
+        password = data['password']
+        auth_user = authenticate(request, username=username, password=password)
+        if not auth_user:
+            return Response({"error": "존재하지 않는 계정이거나 비밀번호가 일치하지 않습니다."},
+                            status=status.HTTP_400_BAD_REQUEST)        
+        login(request, auth_user)
+        return redirect('/user/art')
 
-class TokenObtainPairView(TokenObtainPairView):
-    """
-    Login을 구현하는 View
-    내부에서 UserLog를 생성하는 함수 내장
-    """
-    serializer_class = TokenObtainPairSerializer
-
-
-
-class UserArtistView(CreateAPIView):
+class UserArtistView(APIView):
     serializer_class = UserArtistSerializer
     renderer_classes = [JSONRenderer, TemplateHTMLRenderer]
     template_name = 'main.html'
@@ -80,7 +83,7 @@ class UserArtistView(CreateAPIView):
         serializer = UserArtistSerializer(all_artists, many=True).data
         return Response({'artists':serializer}, template_name= 'u_artist.html')
 
-class UserApplyView(CreateAPIView):
+class UserApplyView(APIView):
     serializer_class = UserArtistSerializer
     permission_classes = [IsAthenticatedButNotArtist]
     renderer_classes = [JSONRenderer, TemplateHTMLRenderer]
@@ -103,7 +106,7 @@ class UserApplyView(CreateAPIView):
         except:
             return Response({'error':"입력된 데이터가 정확하지 않습니다"}, status=status.HTTP_400_BAD_REQUEST)
 
-class StaffDashboardView(CreateAPIView):
+class StaffDashboardView(APIView):
     serializer_class = UserArtistSerializer
     permission_classes = [IsAthenticatedAndStaffOnly]
     renderer_classes = [JSONRenderer, TemplateHTMLRenderer]
@@ -115,7 +118,7 @@ class StaffDashboardView(CreateAPIView):
         art_serializer = ArtSerializer(all_arts, many=True).data
         return Response({'artists':artist_serializer, 'arts':art_serializer},template_name= 's_dashboard.html')
 
-class StaffStaticView(CreateAPIView):
+class StaffStaticView(APIView):
     serializer_class = ArtistStaticSerializer
     permission_classes = [IsAthenticatedAndStaffOnly]
     renderer_classes = [JSONRenderer, TemplateHTMLRenderer]
@@ -125,7 +128,7 @@ class StaffStaticView(CreateAPIView):
         serializer = ArtistStaticSerializer(all_artists, many=True).data
         return Response({'artists':serializer},template_name= 's_static.html')
 
-class StaffApplicationView(CreateAPIView):
+class StaffApplicationView(APIView):
     serializer_class = StaffArtistSerializer
     permission_classes = [IsAthenticatedAndStaffOnly]
     renderer_classes = [JSONRenderer, TemplateHTMLRenderer]

@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from rest_framework import status
-from rest_framework.generics import CreateAPIView
+from rest_framework.generics import CreateAPIView, ListAPIView
 from rest_framework.renderers import TemplateHTMLRenderer, JSONRenderer
 from rest_framework.response import Response
 from art.models import ArtModel
@@ -14,9 +14,11 @@ class ArtListView(CreateAPIView):
     template_name = 'u_art.html'
 
     def get(self, request):
+        print(self.request.query_params)
         all_arts = ArtModel.objects.all().order_by('-created_at')
         serializer = ArtSerializer(all_arts, many=True).data
         return Response({'arts':serializer}, template_name= 'u_art.html')
+
 
 class ArtistDashboardView(CreateAPIView):
     permission_classes = [IsAthenticatedAndArtistOnly]

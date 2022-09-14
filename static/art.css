@@ -41,6 +41,7 @@ a:active{
     flex-direction: column;
     padding-top:28px;
     left:0%;
+    /* background-color: #88f3ff; */
 
 }
 
@@ -55,7 +56,10 @@ a:active{
     text-align: center;
     
 }
-
+.search{
+    display:flex;
+    float:left;
+}
 .card_wrapper{
     
     display:flex;
@@ -67,7 +71,7 @@ a:active{
 }
 .card_inner_wrapper{
     
-    padding:0 auto;
+    /* padding:0 auto; */
     display:flex;
     flex-wrap:wrap;
     justify-content: center;
