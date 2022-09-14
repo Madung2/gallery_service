@@ -56,3 +56,16 @@ class IsAthenticatedAndStaffOnly(BasePermission):
         if user.is_authenticated and user.is_staff:
             return True
         return False
+
+
+class IsAthenticatedAndArtistOnly(BasePermission):
+    def has_permission(self, request, view):
+        user= request.user
+        if not user.is_authenticated:
+            response ={
+                    "detail": "서비스를 이용하기 위해 로그인 해주세요.",
+                }
+            raise GenericAPIException(status_code=status.HTTP_401_UNAUTHORIZED, detail=response)
+        if user.is_authenticated and user.is_artist:
+            return True
+        return False

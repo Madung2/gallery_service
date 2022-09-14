@@ -13,3 +13,11 @@ class ArtSerializer(serializers.ModelSerializer):
         fields = ['id', 'name','artist','size','number','price','image','updated_at','created_at', 'artist_name']
 
 
+
+class ExhibitionArtSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = ArtModel
+        fields = ['id', 'name','artist']
+
+

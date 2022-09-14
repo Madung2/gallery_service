@@ -4,6 +4,7 @@
 {% load static %}
 <link href="{% static 'base.css' %}" rel="stylesheet">
 <link href="{% static 'art.css' %}" rel="stylesheet">
+<link href="{% static 'application.css' %}" rel="stylesheet">
 {% endblock %}
 
 {% block content %}
@@ -26,5 +27,36 @@
 
     </div>
     <div class='try'></div>
+    <table class="tg">
+        <thead>
+            <tr>
+                
+                <th class="tg-0pky">id</th>
+                <th class="tg-0pky">이름</th>
+                <th class="tg-0pky">전체 작품 갯수</th>
+                <th class="tg-0pky">100호 미만(개)</th>
+                <th class="tg-0pky">100호 이상(개)</th>
+                <th class="tg-0pky">작품 평균 가격</th>
+                <th class="tg-0lax">작품 최저 가격</th>
+                <th class="tg-0lax">작품 최고 가격</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for artist in artists %}
+            <tr>
+                
+                <td class="tg-phtq">{{ artist.user_id }}</td>
+                <td class="tg-phtq">{{ artist.name }}</td>
+                <td class="tg-phtq">{{ artist.art_count.all_arts }}</td>
+                <td class="tg-phtq">{{ artist.art_count.under_100 }}</td>
+                <td class="tg-phtq">{{ artist.art_count.over_100 }}</td>
+                <td class="tg-phtq">{{ artist.price.avg }}</td>
+                <td class="tg-hmp3">{{ artist.price.min_n }}</td>
+                <td class="tg-hmp3">{{ artist.price.max_n }}</td>
+            </tr>
+            {% endfor %}
+
+        </tbody>
+    </table>
 
 {% endblock %}

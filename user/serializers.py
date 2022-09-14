@@ -49,7 +49,7 @@ class StaffArtistSerializer(serializers.ModelSerializer):
 
 class ArtistStaticSerializer(serializers.ModelSerializer):
     price = serializers.SerializerMethodField()
-    over_under_100 = serializers.SerializerMethodField()
+    art_count = serializers.SerializerMethodField()
 
     def get_price(self, obj):
         """_summary_
@@ -81,8 +81,9 @@ class ArtistStaticSerializer(serializers.ModelSerializer):
         return {'avg': avg, 'max_n':max_n, 'min_n':min_n}
         
 
-    def get_over_under_100(self, obj):
+    def get_art_count(self, obj):
         arts = ArtModel.objects.filter(artist=obj.id).all()
+        all_arts = arts.count()
         under_count=0
         over_count=0
         for art in arts:
@@ -90,10 +91,11 @@ class ArtistStaticSerializer(serializers.ModelSerializer):
                 under_count+=1
             if art.number>=100:
                 over_count+=1
-        return {'over_100':over_count, 'under_100':under_count}
+        return {'all_arts':all_arts,'over_100':over_count, 'under_100':under_count}
+
 
     class Meta:
         model = ArtistModel
-        fields= ['user_id','name','gender','birthday','phone_number','email', 'price', 'over_under_100']
+        fields= ['user_id','name','gender', 'price', 'art_count']#'birthday','phone_number','email',
 
 

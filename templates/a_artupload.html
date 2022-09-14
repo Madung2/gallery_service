@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% block css %}
+{% load static %}
+<link href="{% static 'base.css' %}" rel="stylesheet">
+<link href="{% static 'art.css' %}" rel="stylesheet">
+<link href="{% static 'apply.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class='head_indent'></div>
+<div class='wrapper'>
+    <div class='side_bar'>
+        <div class='button_box'>
+            <a href="/artist/dasboard"><div style='font-size:3rem'><i class="fa fa-user-female"></i></div>
+            <div>대시보드</div></a>
+        </div>
+        <a href="/artist/art"><div class='button_box'>
+            <div style='font-size:3rem'><i class="fa fa-photo"></i></div>
+            <div>작품 등록</div></a>
+        </div>
+        <a href="/artist/exhibition"><div class='button_box'>
+            <div style='font-size:3rem'><i class="fa fa-edit"></i></div>
+            <div>전시 등록</div></a>
+        </div>
+    </div>
+    <div class='try'></div>
+    <div class='main_application'>
+        <h1> 작품 등록 </h1>
+        <hr width='400px'>
+
+        <h3>작품 상세 정보를 입력해주세요.<br> 작품 등록은 관리자의 승인/반려 절차가 없습니다.</h3>
+        <br><br>
+        <form action="{% url 'artist_art' %}" method="post" enctype="multipart/form-data" novalidate>
+            {% csrf_token %}
+            <div class="inputs  mb-3" style='margin:0 auto'>
+                <label for="name" class="col-sm-2 col-form-label input-title-label">제목:&nbsp;&nbsp;</label>
+                <input name="name" type="text" class="input_box" maxlength='64'
+                    placeholder="제목을 입력해주세요(64자 이하)" value= {{ arts.name }} >
+            </div>
+            <br><br>
+            <div class="inputs  mb-3" style='margin:0 auto'>
+                <label for="price" class="col-sm-2 col-form-label input-title-label">가격:&nbsp;&nbsp;</label>
+                <input name="price" type="text" class="input_box" id="price"
+                    placeholder="가격을 입력해주세요"  onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"/>&nbsp;(원)
+            </div>
+            <br><br>
+            <div class="inputs  mb-3" style='margin:0 auto'>
+                <label for="number" class="col-sm-2 col-form-label input-title-label">호수:&nbsp;&nbsp;</label>
+                <input name="number" type="text" class="input_box" id="number"
+                    placeholder="호수를 입력해주세요" maxlength='3'  onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"/>&nbsp;(호)
+            </div>
+            <br><br>
+            <br><br>
+            <div class="input-img mb-3">
+                <label for="image" class="col-sm-2 col-form-label">작품:&nbsp;&nbsp;</label>
+                <input name="image" class="form-control form-control-sm" accept="image/*" type="file">
+            </div>
+
+            <div style='width=100%;height:80px'></div>
+            <div><button type='submit' class='submit'>제출</button></div>
+            <div style='width=100%;height:50px'></div>
+            {% if error %}
+            <div class="alert alert-danger" role="alert" style='font-size:1.5rem;color:red'>
+                {{ error }}
+            </div>
+        {% endif %}
+        </form>
+        <hr width='400px'>
+        <h3></h3>
+    </div>  
+</div>
+<script>
+    $(document).ready(function(){
+        $("input:text[id='price']").on("keyup", function() {
+            $(this).val(addComma($(this).val().replace(/[^0-9]/g,"")));
+        });
+    });
+  //천단위마다 콤마 생성
+    function addComma(data) {
+        return data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+</script>
+
+
+{% endblock %}

@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block css %}
+{% load static %}
+<link href="{% static 'base.css' %}" rel="stylesheet">
+<link href="{% static 'art.css' %}" rel="stylesheet">
+<link href="{% static 'apply.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class='head_indent'></div>
+<div class='wrapper'>
+    <div class='side_bar'>
+        <div class='button_box'>
+            <a href="/artist/dashboard"><div style='font-size:3rem'><i class="fa fa-user-female"></i></div>
+            <div>대시보드</div></a>
+        </div>
+        <a href="/artist/art"><div class='button_box'>
+            <div style='font-size:3rem'><i class="fa fa-photo"></i></div>
+            <div>작품 등록</div></a>
+        </div>
+        <a href="/artist/exhibition"><div class='button_box'>
+            <div style='font-size:3rem'><i class="fa fa-edit"></i></div>
+            <div>전시 등록</div></a>
+        </div>
+
+
+    </div>
+    <div class='try'></div>
+    <div class='main_application'>
+        <h1> 전시 등록 </h1>
+        <hr width='400px'>
+        <h3>전시 상세 정보를 입력해주세요.<br> 전시 등록은 관리자의 승인/반려 절차가 없습니다.</h3>
+        <br><br>
+        <form action="{% url 'artist_exhibition' %}" method="post" enctype="multipart/form-data" novalidate>
+            {% csrf_token %}
+            <div class="inputs  mb-3" style='margin:0 auto'>
+                <label for="name" class="col-sm-2 col-form-label input-title-label">제목:&nbsp;&nbsp;</label>
+                <input name="name" type="text" class="input_box" maxlength='64'
+                    placeholder="전시명을 입력해주세요(64자 이하)" value= {{ arts.name }} >
+            </div>
+            <br><br>
+            <div class="inputs  mb-3">
+                <label for="start_date">시작일:&nbsp;&nbsp;</label>
+                <input type="date" id="start_date" name="start_date">
+            </div>
+            <br><br>
+            <div class="inputs  mb-3">
+                <label for="end_date">종료일:&nbsp;&nbsp;</label>
+                <input type="date" id="end_date" name="end_date">
+            </div>
+            <br><br>
+            <div class="inputs  mb-3" style='border:1px solid pink;padding:20px'>
+                <label for="art_list">작품 선택:&nbsp;&nbsp;&nbsp;</label>
+
+                {% for art in arts %}
+                <label><input type="checkbox" name="art_list" value="{{ art.id }}"> {{ art.name }}</label>
+                &nbsp;&nbsp;
+                {% endfor %}
+            </div>
+            <br><br>
+            <div style='width=100%;height:80px'></div>
+            <div><button type='submit' class='submit'>제출</button></div>
+            <div style='width=100%;height:50px'></div>
+            {% if error %}
+            <div class="alert alert-danger" role="alert" style='font-size:1.5rem;color:red'>
+                {{ error }}
+            </div>
+        {% endif %}
+        </form>
+        <hr width='400px'>
+        <h3></h3>
+    </div>
+</div>
+
+{% endblock %}

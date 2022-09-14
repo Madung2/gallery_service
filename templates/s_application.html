@@ -12,7 +12,7 @@
 <div class='wrapper'>
     <div class='side_bar'>
         <div class='button_box'>
-            <a href="/staff/dasboard"><div style='font-size:3rem'><i class="fa fa-user-female"></i></div>
+            <a href="/staff/dashboard"><div style='font-size:3rem'><i class="fa fa-user-female"></i></div>
             <div>대시보드</div></a>
         </div>
         <a href="/staff/static"><div class='button_box'>
@@ -33,6 +33,7 @@
             <thead>
                 <tr>
                     <th class="tg-0pky"><input type='checkbox' name='is_not_waiting?' value='selectall' onclick='selectAll(this)'/>Select All</th>
+                    <th class="tg-0pky">id</th>
                     <th class="tg-0pky">name</th>
                     <th class="tg-0pky">birthday</th>
                     <th class="tg-0pky">e-mail</th>
@@ -45,6 +46,7 @@
                 {% for artist in artists %}
                 <tr>
                     <td class="tg-phtq"><input type='checkbox' name='is_not_waiting?' value='{{ artist.id }}'/></td>
+                    <td class="tg-phtq">{{ artist.user_id }}</td>
                     <td class="tg-phtq">{{ artist.name }}</td>
                     <td class="tg-phtq">{{ artist.birthday }}</td>
                     <td class="tg-phtq">{{ artist.email }}</td>
@@ -66,6 +68,18 @@
                 checkbox.checked = selectAll.checked;
             })
         }
+
+        function is_checked(){
+            const checkboxes = document.getElementsByName('is_not_waiting?');
+            checkboxes.forEach((checkbox) => {
+                let is_checked = checkbox.checked;
+
+                if (is_checked){
+                    console.log("이건 됐다")
+                }
+            })
+        }
+        is_checked()
     </script>
 
 

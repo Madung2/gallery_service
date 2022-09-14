@@ -11,10 +11,10 @@ class ArtModel(models.Model):
 
     name = models.CharField("작품명",max_length=64)
     artist = models.ForeignKey(ArtistModel, related_name ='arts', on_delete=models.CASCADE)
-    size = models.CharField("사이즈", max_length=200)
+    size = models.CharField("사이즈", max_length=200, null=True, blank=True)
     number = models.IntegerField("호수", validators=[MinValueValidator(1), MaxValueValidator(500)])
     price = models.IntegerField("가격", default=0, validators=[MinValueValidator(0)])
-    image = models.FileField(upload_to='uploads/art/',null=True)
+    image = models.FileField(upload_to='uploads/',null=True)
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
 

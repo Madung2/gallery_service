@@ -70,7 +70,8 @@ class TokenObtainPairView(TokenObtainPairView):
 
 
 
-class ArtistListView(CreateAPIView):
+class UserArtistView(CreateAPIView):
+    serializer_class = UserArtistSerializer
     renderer_classes = [JSONRenderer, TemplateHTMLRenderer]
     template_name = 'main.html'
 
@@ -79,7 +80,8 @@ class ArtistListView(CreateAPIView):
         serializer = UserArtistSerializer(all_artists, many=True).data
         return Response({'artists':serializer}, template_name= 'u_artist.html')
 
-class ArtistApplyView(CreateAPIView):
+class UserApplyView(CreateAPIView):
+    serializer_class = UserArtistSerializer
     permission_classes = [IsAthenticatedButNotArtist]
     renderer_classes = [JSONRenderer, TemplateHTMLRenderer]
     template_name = 'u_apply.html'
@@ -88,7 +90,6 @@ class ArtistApplyView(CreateAPIView):
         try:
             return Response(template_name= 'u_apply.html')
         except:
-            print("####")
             return Response({'error':"권한이 없습니다"}, template_name='u_art.html' )
 
     def post(self,request):
@@ -103,6 +104,7 @@ class ArtistApplyView(CreateAPIView):
             return Response({'error':"입력된 데이터가 정확하지 않습니다"}, status=status.HTTP_400_BAD_REQUEST)
 
 class StaffDashboardView(CreateAPIView):
+    serializer_class = UserArtistSerializer
     permission_classes = [IsAthenticatedAndStaffOnly]
     renderer_classes = [JSONRenderer, TemplateHTMLRenderer]
     template_name = 's_dashboard.html'
@@ -114,7 +116,8 @@ class StaffDashboardView(CreateAPIView):
         return Response({'artists':artist_serializer, 'arts':art_serializer},template_name= 's_dashboard.html')
 
 class StaffStaticView(CreateAPIView):
-    # permission_classes = [IsAthenticatedAndStaffOnly]
+    serializer_class = ArtistStaticSerializer
+    permission_classes = [IsAthenticatedAndStaffOnly]
     renderer_classes = [JSONRenderer, TemplateHTMLRenderer]
     template_name = 's_static.html'
     def get(self, request):
@@ -122,8 +125,8 @@ class StaffStaticView(CreateAPIView):
         serializer = ArtistStaticSerializer(all_artists, many=True).data
         return Response({'artists':serializer},template_name= 's_static.html')
 
-
 class StaffApplicationView(CreateAPIView):
+    serializer_class = StaffArtistSerializer
     permission_classes = [IsAthenticatedAndStaffOnly]
     renderer_classes = [JSONRenderer, TemplateHTMLRenderer]
     template_name = 's_application.html'
@@ -131,6 +134,3 @@ class StaffApplicationView(CreateAPIView):
         all_artists = ArtistModel.objects.all().order_by('-created_at')
         serializer = StaffArtistSerializer(all_artists, many=True).data
         return Response({'artists':serializer},template_name= 's_application.html')
-
-
-
