@@ -21,7 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
+# SECURITY WARNING: keep the secret key used in producitistagram.comction secret!
 env = environ.Env(
     DEBUG=(bool, True)
 )
@@ -33,7 +33,9 @@ SECRET_KEY = os.environ['SECRET_KEY']
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['3.38.250.120']
+
+ALLOWED_HOSTS = ['3.38.250.120', 'citistagram.com', 'http://citistagram.com', 'www.citistagram.com']
+
 
 
 # Application definition
@@ -94,6 +96,7 @@ WSGI_APPLICATION = "gallery_service.wsgi.application"
 #     }
 # }
 
+
 DATABASES = {
     'default': {
         'ENGINE': os.environ.get('SQL_ENGINE',"django.db.backends.sqlite3"),
@@ -104,6 +107,7 @@ DATABASES = {
         'PORT': os.environ.get('SQL_PORT', '5432'),
     }
 }
+
 
 REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': [
@@ -146,9 +150,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = '/static/'
-STATIC_DIR = os.path.join(BASE_DIR, 'static')
-STATICFILES_DIRS = [STATIC_DIR, ]
+STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / 'static'
+#STATIC_DIR = os.path.join(BASE_DIR, 'static')
+#STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+# STATICFILES_DIRS = [STATIC_DIR, ]
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
@@ -157,3 +163,4 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
