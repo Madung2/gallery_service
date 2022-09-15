@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import redirect
 from rest_framework import status
 from rest_framework.views import APIView
 # from rest_framework.generics import CreateAPIView, ListAPIView
@@ -8,6 +8,9 @@ from .models import ArtistModel
 from art.models import ArtModel
 from art.serializers import ArtSerializer, ExhibitionArtSerializer, ExhibitionSerializer
 from gallery_service.permissions import IsAthenticatedAndArtistOnly
+
+
+
 
 class ArtListView(APIView):
     serializer_class = ArtSerializer
@@ -26,6 +29,7 @@ class ArtistDashboardView(APIView):
     serializer_class = ArtSerializer
     renderer_classes = [JSONRenderer, TemplateHTMLRenderer]
     template_name = 'a_dashboard.html'
+
     def get(self, request):
         all_arts = ArtModel.objects.all()
         serializer = ArtSerializer(all_arts, many=True).data
@@ -35,8 +39,10 @@ class ArtistArtView(APIView):
     permission_classes = [IsAthenticatedAndArtistOnly]
     renderer_classes = [JSONRenderer, TemplateHTMLRenderer]
     template_name = 'a_artupload.html'
+
     def get(self, request):        
         return Response(template_name= 'a_artupload.html')
+
     def post(self, request):
         new_price = int(request.data['price'].replace(',',''))
         artist_id= ArtistModel.objects.get(user_id_id=request.user.id).id
@@ -53,6 +59,7 @@ class ArtistExhibitionView(APIView):
     permission_classes = [IsAthenticatedAndArtistOnly]
     renderer_classes = [JSONRenderer, TemplateHTMLRenderer]
     template_name = 'a_exhibition.html'
+
     def get(self, request):
         artist_id= ArtistModel.objects.get(user_id_id=request.user.id).id
         try: #art model에서 artist_id가 같은 작품의 id와 이름

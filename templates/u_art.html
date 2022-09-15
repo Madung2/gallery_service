@@ -34,7 +34,7 @@
         <div class='card_wrapper'>
         <div class='card_inner_wrapper'>
             {% for art in arts %}
-            <div class='card' style="background-image: url('..{{ art.image }}')">
+            <div class='card' style="background-image: url('{{ art.image }}')">
                 <div class='card_tag'>
                     <div class='card_title'>{{ art.name }}</div>
                     <p>&nbsp;&nbsp;{{ art.artist_name }}</p>

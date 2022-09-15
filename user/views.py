@@ -32,6 +32,9 @@ def make_artist_apply_data(request):
     data['phone_number']=data['phone1']+'-'+data['phone2']+'-'+data['phone3']
     return data
 
+def home(request):
+    return redirect('/user/art')
+
 class UserCreateView(APIView):
     """
     회원가입 페이지 view

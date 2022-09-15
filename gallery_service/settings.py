@@ -34,7 +34,7 @@ SECRET_KEY = os.environ['SECRET_KEY']
 DEBUG = True
 
 
-ALLOWED_HOSTS = ['3.38.250.120', 'citistagram.com', 'http://citistagram.com', 'www.citistagram.com']
+ALLOWED_HOSTS = ['3.38.250.120', '127.0.0.1', 'citistagram.com', 'http://citistagram.com', 'www.citistagram.com']
 
 
 
