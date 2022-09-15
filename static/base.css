@@ -129,7 +129,7 @@ body::-webkit-scrollbar-track {
     color:pink ;
 }
 
-.username, .bookmark, .liked, .logout, .random {
+.username, .bookmark, .liked, .logout, .random, .staff_page, .artist_page{
     display: flex;
     flex-direction: row;
     float: right;
@@ -139,6 +139,11 @@ body::-webkit-scrollbar-track {
     background-color: transparent;
     border-color: transparent;
     transform: scale(1);
+}
+
+#staff_page{
+    font-size:18px;
+    font-weight: bold;
 }
 .logout {
     margin-right: 10px;

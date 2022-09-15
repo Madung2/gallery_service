@@ -1,3 +1,4 @@
+from functools import partial
 from django.shortcuts import  redirect
 # from django.contrib import auth
 from django.contrib.auth import authenticate, login
@@ -118,6 +119,8 @@ class StaffDashboardView(APIView):
         art_serializer = ArtSerializer(all_arts, many=True).data
         return Response({'artists':artist_serializer, 'arts':art_serializer},template_name= 's_dashboard.html')
 
+
+
 class StaffStaticView(APIView):
     serializer_class = ArtistStaticSerializer
     permission_classes = [IsAthenticatedAndStaffOnly]
@@ -128,6 +131,8 @@ class StaffStaticView(APIView):
         serializer = ArtistStaticSerializer(all_artists, many=True).data
         return Response({'artists':serializer},template_name= 's_static.html')
 
+
+
 class StaffApplicationView(APIView):
     serializer_class = StaffArtistSerializer
     permission_classes = [IsAthenticatedAndStaffOnly]
@@ -137,3 +142,31 @@ class StaffApplicationView(APIView):
         all_artists = ArtistModel.objects.all().order_by('-created_at')
         serializer = StaffArtistSerializer(all_artists, many=True).data
         return Response({'artists':serializer},template_name= 's_application.html')
+
+    def post(self, request):
+        id_array= request.data.getlist('is_not_waiting', False)
+
+        for id in id_array:
+            target_artist= ArtistModel.objects.get(user_id=id)
+            data={"is_confirmed":1, "is_waiting":0}
+            serializer = StaffArtistSerializer(target_artist, data=data, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                print("성공!")
+                target_user= UserModel.objects.get(id=id)
+                data2={"is_artist":1}
+                serializer2 = UserSerializer(target_user, data=data2, partial=True)
+                print(serializer2)
+                if serializer2.is_valid():
+                    serializer.save()
+                    print("성공2")
+                    all_artists = ArtistModel.objects.all().order_by('-created_at')
+                    return_serializer = StaffArtistSerializer(all_artists, many=True).data
+                    return Response({'artists':return_serializer},template_name= 's_application.html')
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
+

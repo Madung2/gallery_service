@@ -1,14 +1,15 @@
 from django.shortcuts import render
 from rest_framework import status
-from rest_framework.generics import CreateAPIView, ListAPIView
+from rest_framework.views import APIView
+# from rest_framework.generics import CreateAPIView, ListAPIView
 from rest_framework.renderers import TemplateHTMLRenderer, JSONRenderer
 from rest_framework.response import Response
-from art.models import ArtModel
 from .models import ArtistModel
-from art.serializers import ArtSerializer, ExhibitionArtSerializer
+from art.models import ArtModel
+from art.serializers import ArtSerializer, ExhibitionArtSerializer, ExhibitionSerializer
 from gallery_service.permissions import IsAthenticatedAndArtistOnly
 
-class ArtListView(CreateAPIView):
+class ArtListView(APIView):
     serializer_class = ArtSerializer
     renderer_classes = [JSONRenderer, TemplateHTMLRenderer]
     template_name = 'u_art.html'
@@ -20,7 +21,7 @@ class ArtListView(CreateAPIView):
         return Response({'arts':serializer}, template_name= 'u_art.html')
 
 
-class ArtistDashboardView(CreateAPIView):
+class ArtistDashboardView(APIView):
     permission_classes = [IsAthenticatedAndArtistOnly]
     serializer_class = ArtSerializer
     renderer_classes = [JSONRenderer, TemplateHTMLRenderer]
@@ -30,7 +31,7 @@ class ArtistDashboardView(CreateAPIView):
         serializer = ArtSerializer(all_arts, many=True).data
         return Response({'arts':serializer},template_name= 'a_dashboard.html')
 
-class ArtistArtView(CreateAPIView):
+class ArtistArtView(APIView):
     permission_classes = [IsAthenticatedAndArtistOnly]
     renderer_classes = [JSONRenderer, TemplateHTMLRenderer]
     template_name = 'a_artupload.html'
@@ -48,7 +49,7 @@ class ArtistArtView(CreateAPIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         
 
-class ArtistExhibitionView(CreateAPIView):
+class ArtistExhibitionView(APIView):
     permission_classes = [IsAthenticatedAndArtistOnly]
     renderer_classes = [JSONRenderer, TemplateHTMLRenderer]
     template_name = 'a_exhibition.html'
@@ -62,5 +63,11 @@ class ArtistExhibitionView(CreateAPIView):
         return Response({"arts":arts}, template_name= 'a_exhibition.html')
 
     def post(self, request):
-
-        return Response(template_name= 'a_exhibition.html')
+        artist_id= ArtistModel.objects.get(user_id_id=request.user.id).id
+        data = request.data.copy()
+        data['artist']=artist_id
+        serializer=ExhibitionSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'result':"전시가 추가되었습니다"},template_name = 'a_exhibition.html')
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

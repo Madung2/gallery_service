@@ -30,9 +30,13 @@
     <div style='margin:30px'>
         <h3>작가 등록 신청 내역</h3>
         <table class="tg">
+            <form action="{% url 'application' %}" method="post" enctype="multipart/form-data" novalidate>
+                {% csrf_token %}
+            <div><button type='submit' class='submit'>작가 승인/반려</button></div>
+            <div style='width:100%; height:30px'></div>
             <thead>
                 <tr>
-                    <th class="tg-0pky"><input type='checkbox' name='is_not_waiting?' value='selectall' onclick='selectAll(this)'/>Select All</th>
+                    <th class="tg-0pky"><input type='checkbox' name='is_not_waiting' value='selectall' onclick='selectAll(this)'/>Select All</th>
                     <th class="tg-0pky">id</th>
                     <th class="tg-0pky">name</th>
                     <th class="tg-0pky">birthday</th>
@@ -45,24 +49,25 @@
             <tbody>
                 {% for artist in artists %}
                 <tr>
-                    <td class="tg-phtq"><input type='checkbox' name='is_not_waiting?' value='{{ artist.id }}'/></td>
+                    <td class="tg-phtq"><input type='checkbox' name='is_not_waiting' value='{{ artist.user_id }}'/></td>
                     <td class="tg-phtq">{{ artist.user_id }}</td>
                     <td class="tg-phtq">{{ artist.name }}</td>
                     <td class="tg-phtq">{{ artist.birthday }}</td>
                     <td class="tg-phtq">{{ artist.email }}</td>
                     <td class="tg-phtq">{{ artist.phone_number }}</td>
                     <td class="tg-hmp3">{{ artist.date }}</td>
-                    <td class="tg-hmp3">{{ artist.is_waiting }}</td>
+                    <td class="tg-hmp3">{{ artist.is_confirmed }}</td>
                 </tr>
                 {% endfor %}
 
             </tbody>
+        </form>
         </table>
     </div>
 
     <script>
         function selectAll(selectAll)  {
-            const checkboxes = document.getElementsByName('is_not_waiting?');
+            const checkboxes = document.getElementsByName('is_not_waiting');
             
             checkboxes.forEach((checkbox) => {
                 checkbox.checked = selectAll.checked;
@@ -70,7 +75,7 @@
         }
 
         function is_checked(){
-            const checkboxes = document.getElementsByName('is_not_waiting?');
+            const checkboxes = document.getElementsByName('is_not_waiting');
             checkboxes.forEach((checkbox) => {
                 let is_checked = checkbox.checked;
 

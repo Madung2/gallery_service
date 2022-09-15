@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import ArtModel
+from .models import ArtModel, ExhibitionModel
 # from user.serializers import UserArtistSerializer
 
 class ArtSerializer(serializers.ModelSerializer):
@@ -20,4 +20,9 @@ class ExhibitionArtSerializer(serializers.ModelSerializer):
         model = ArtModel
         fields = ['id', 'name','artist']
 
+
+class ExhibitionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ExhibitionModel
+        fields = '__all__'
 

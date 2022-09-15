@@ -7,7 +7,7 @@
     <meta property="og:title" content="ThisGallery"/>
     <meta property="og:description" content="오픈갤러리 과제"/>
     <meta property="og:image" content="../static/image/favicon.png"/>
-    <title>{% block title %}{% endblock %} | ThisGallery</title>
+    <title>{% block title %}{% endblock %} | Gallery</title>
     <!-- CSS -->
     <link href="{% static 'base.css' %}" rel="stylesheet">
     {% block css %}
@@ -35,7 +35,7 @@
 <!-- 헤더 부분 -->
 <header class="header">
     <!-- 로고 -->
-    <button class="logo" onclick="window.location.replace('/main')"><b>Gallery</b></button>
+    <button class="logo" onclick="window.location.replace('/user/art')"><b>Gallery</b></button>
     <!-- 검색창 -->
     <div class="search">
         
@@ -51,12 +51,22 @@
     <div class="user-info">
         <p class="username" id="user-name">
             안녕하세요
-            <span id="username" class="user-txt">{{ user.username }}</span> <span
-                class="user-txt">님</span>
+            <span id="username" class="user-txt">{{ user.username }}님</span>
         </p>
+        {% if user.is_staff %}
+        <p class="logout" id="user-logout">
+            <a class="logout-txt" href="/staff/dashboard"style="text-decoration: none;color:pink">스태프 페이지</a>
+        </p>
+        {% endif %} 
+        {% if user.is_artist %}
+        <p class="logout" id="user-logout">
+            <a class="logout-txt" href="/artist/dashboard"style="text-decoration: none;color:pink">작가 페이지</a>
+        </p>
+        {% endif %} 
+
         <p class="logout" id="user-logout">
             <i class="fa-solid fa-right-from-bracket" id="logout-icon"></i> 
-            <a class="logout-txt" id="loginout" href="/logout"style="text-decoration: none; color: white;">로그아웃</a>
+            <a class="logout-txt" id="loginout" href="/login"style="text-decoration: none; color: white;">로그아웃</a>
         </p>
     </div>
 
