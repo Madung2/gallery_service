@@ -2,6 +2,10 @@
 오픈갤러리 기업과제
 
 
+## 👉 배포 <br><br>
+### 주소: https://www.citistagram.com/
+<br>
+![image](https://user-images.githubusercontent.com/104334219/190332676-b0791821-d79d-471f-8e27-2255b339f0ef.png)
 
 
 ## 👉 ERD <br><br>
