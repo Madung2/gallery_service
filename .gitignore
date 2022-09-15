@@ -224,3 +224,4 @@ $RECYCLE.BIN/
 
 # End of https://www.toptal.com/developers/gitignore/api/windows,visualstudiocode,django
 .env.prod
+.env.postgres.prod
