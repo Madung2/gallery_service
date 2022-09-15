@@ -6,3 +6,4 @@ RUN apk add build-base python3-dev py-pip jpeg-dev zlib-dev libpq-dev
 WORKDIR /django
 COPY requirements.txt requirements.txt
 RUN pip3 install -r requirements.txt
+
