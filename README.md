@@ -50,7 +50,7 @@
 
 
 ## 📌 주요기능
-#### ❓AWS RDS와 EC2, docker를 사용한 배포
+#### ❓AWS RDS(postgresql 사용)와 EC2, docker를 사용한 배포
 #### ❓query_params사용한 작품 검색 기능
 #### ❓일반유저 접근 페이지, 작가 접근 가능 페이지, 스태프 접근 가능 페이지 permission 구분
 #### ❓작가 공모, 작품 업로드, exhibition 업로드 등 총 11개 페이지 프론트&백 작성
