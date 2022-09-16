@@ -37,7 +37,9 @@ def home(request):
 
 class UserCreateView(APIView):
     """
-    회원가입 페이지 view
+    모든 anonymous 접근 가능 페이지
+    회원 가입 페이지 뷰
+    
     """
     renderer_classes = [JSONRenderer, TemplateHTMLRenderer]
     template_name = 'signup.html'
@@ -59,8 +61,10 @@ class UserCreateView(APIView):
         return Response({'error':'빈칸을 채워주세요'}, status=status.HTTP_400_BAD_REQUEST)
 
 class LoginPageView(APIView):
-    """_
-    로그인 페이지 view
+    """
+    모든 anonymous 접근 가능 페이지
+    로그인 페이지 뷰
+    
     """
     renderer_classes = [JSONRenderer, TemplateHTMLRenderer]
     template_name = 'signin.html'
@@ -78,6 +82,11 @@ class LoginPageView(APIView):
         return redirect('/user/art')
 
 class UserArtistView(APIView):
+    """
+    일반 유저 및 anonymous 접근 가능 페이지
+    고객 페이지: 작가목록 조회 페이지
+    
+    """
     serializer_class = UserArtistSerializer
     renderer_classes = [JSONRenderer, TemplateHTMLRenderer]
     template_name = 'main.html'
@@ -88,6 +97,11 @@ class UserArtistView(APIView):
         return Response({'artists':serializer}, template_name= 'u_artist.html')
 
 class UserApplyView(APIView):
+    """
+    일반 유저 및 anonymous 접근 가능 페이지
+    고객 페이지: 작가 등록 신청 페이지
+    
+    """    
     serializer_class = UserArtistSerializer
     permission_classes = [IsAthenticatedButNotArtist]
     renderer_classes = [JSONRenderer, TemplateHTMLRenderer]
@@ -106,11 +120,16 @@ class UserApplyView(APIView):
             if serializer.is_valid():
                 serializer.save()
                 return Response({'result':"작가 신청이 정상적으로 이루어졌습니다."},template_name = 'u_art.html')
-            return Response({'error':"작가 신청이 정상적으로 이루어지지 않았습니다"})
+            return Response({'error':"작가 신청이 정상적으로 이루어지지 않았습니다"}, status=status.HTTP_400_BAD_REQUEST)
         except:
             return Response({'error':"입력된 데이터가 정확하지 않습니다"}, status=status.HTTP_400_BAD_REQUEST)
 
 class StaffDashboardView(APIView):
+    """
+    관리자 계정 접근 가능 페이지
+    관리자 페이지: 대시보드 페이지
+    
+    """  
     serializer_class = UserArtistSerializer
     permission_classes = [IsAthenticatedAndStaffOnly]
     renderer_classes = [JSONRenderer, TemplateHTMLRenderer]
@@ -125,6 +144,11 @@ class StaffDashboardView(APIView):
 
 
 class StaffStaticView(APIView):
+    """
+    관리자 계정 접근 가능 페이지
+    관리자 페이지: 작가 통계 페이지
+    
+    """  
     serializer_class = ArtistStaticSerializer
     permission_classes = [IsAthenticatedAndStaffOnly]
     renderer_classes = [JSONRenderer, TemplateHTMLRenderer]
@@ -137,6 +161,11 @@ class StaffStaticView(APIView):
 
 
 class StaffApplicationView(APIView):
+    """
+    관리자 계정 접근 가능 페이지
+    관리자 페이지: 작가 등록 신청 내역 조회 페이지
+    
+    """  
     serializer_class = StaffArtistSerializer
     permission_classes = [IsAthenticatedAndStaffOnly]
     renderer_classes = [JSONRenderer, TemplateHTMLRenderer]
@@ -155,14 +184,11 @@ class StaffApplicationView(APIView):
             serializer = StaffArtistSerializer(target_artist, data=data, partial=True)
             if serializer.is_valid():
                 serializer.save()
-                print("성공!")
                 target_user= UserModel.objects.get(id=id)
                 data2={"is_artist":1}
                 serializer2 = UserSerializer(target_user, data=data2, partial=True)
-                print(serializer2)
                 if serializer2.is_valid():
                     serializer.save()
-                    print("성공2")
                     all_artists = ArtistModel.objects.all().order_by('-created_at')
                     return_serializer = StaffArtistSerializer(all_artists, many=True).data
                     return Response({'artists':return_serializer},template_name= 's_application.html')

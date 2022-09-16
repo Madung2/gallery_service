@@ -1,9 +1,10 @@
-from django.shortcuts import redirect
+from django.db.models.query_utils import Q
+
 from rest_framework import status
 from rest_framework.views import APIView
-# from rest_framework.generics import CreateAPIView, ListAPIView
 from rest_framework.renderers import TemplateHTMLRenderer, JSONRenderer
 from rest_framework.response import Response
+
 from .models import ArtistModel
 from art.models import ArtModel
 from art.serializers import ArtSerializer, ExhibitionArtSerializer, ExhibitionSerializer
@@ -13,18 +14,35 @@ from gallery_service.permissions import IsAthenticatedAndArtistOnly
 
 
 class ArtListView(APIView):
+    """
+    일반유저 및 anonymous유저 접근 가능 페이지
+    작품 목록 조회 페이지 뷰
+    
+    """
     serializer_class = ArtSerializer
     renderer_classes = [JSONRenderer, TemplateHTMLRenderer]
     template_name = 'u_art.html'
 
     def get(self, request):
-        print(self.request.query_params)
-        all_arts = ArtModel.objects.all().order_by('-created_at')
+        word = self.request.query_params.get("search")
+        if word:
+            query = Q()
+            query.add(Q(name__icontains=word), Q.OR)
+            query.add(Q(number__contains=word), Q.OR)
+            query.add(Q(price__contains=word), Q.OR)
+            all_arts = ArtModel.objects.filter(query).order_by('-created_at')
+        else:
+            all_arts = ArtModel.objects.all().order_by('-created_at')
         serializer = ArtSerializer(all_arts, many=True).data
         return Response({'arts':serializer}, template_name= 'u_art.html')
 
 
 class ArtistDashboardView(APIView):
+    """
+    작가 접근 가능 페이지
+    작가 페이지: 대시보드
+    
+    """
     permission_classes = [IsAthenticatedAndArtistOnly]
     serializer_class = ArtSerializer
     renderer_classes = [JSONRenderer, TemplateHTMLRenderer]
@@ -36,6 +54,11 @@ class ArtistDashboardView(APIView):
         return Response({'arts':serializer},template_name= 'a_dashboard.html')
 
 class ArtistArtView(APIView):
+    """
+    작가 접근 가능 페이지
+    작가 페이지: 작품등록 페이지
+    
+    """
     permission_classes = [IsAthenticatedAndArtistOnly]
     renderer_classes = [JSONRenderer, TemplateHTMLRenderer]
     template_name = 'a_artupload.html'
@@ -56,6 +79,11 @@ class ArtistArtView(APIView):
         
 
 class ArtistExhibitionView(APIView):
+    """
+    작가 접근 가능 페이지
+    작가 페이지: 전시 등록 페이지
+    
+    """
     permission_classes = [IsAthenticatedAndArtistOnly]
     renderer_classes = [JSONRenderer, TemplateHTMLRenderer]
     template_name = 'a_exhibition.html'
